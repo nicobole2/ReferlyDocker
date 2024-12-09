@@ -1,0 +1,6 @@
+@referly_HostAddress = http://localhost:5215
+
+GET {{referly_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

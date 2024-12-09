@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./FrontEnd
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:5000
+    depends_on:
+      - backend
+    networks:
+      - referly-network
+
+  backend:
+    build:
+      context: ./BackEnd
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+     ASPNETCORE_ENVIRONMENT: "Development"
+     ASPNETCORE_URLS: http://+:5000
+     ConnectionStrings__DefaultConnection: Server=sqlserver;Database=Referly;User Id=sa;Password=Referly2023!;TrustServerCertificate=True;MultipleActiveResultSets=true;Encrypt=False
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    networks:
+      - referly-network
+    restart: unless-stopped
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Referly2023!
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+      - ./BackEnd/setup.sql:/setup.sql
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P "Referly2023!" -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - referly-network
+    restart: unless-stopped
+    command: >
+      bash -c "
+        /opt/mssql/bin/sqlservr &
+        sleep 30
+        /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P Referly2023! -i /setup.sql
+        tail -f /dev/null
+      "
+
+volumes:
+  sqlserver_data:
+    driver: local
+
+networks:
+  referly-network:
+    driver: bridge
