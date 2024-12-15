@@ -9,5 +9,9 @@ export default defineConfig({
     watch: {
       usePolling: true
     }
+  },
+  // Configuración para producción
+  preview: {
+    port: 80
   }
 })
