@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "VpQD5xEA0wc=",
+  "dgSpecHash": "qtKjJXeDxfA=",
   "success": true,
-  "projectFilePath": "/Users/nicolas.bole/Documents/referlyNet/referly/referly.csproj",
+  "projectFilePath": "/Users/nicolas.bole/Documents/ReferlyDocker/BackEnd/referly.csproj",
   "expectedPackageFiles": [
     "/Users/nicolas.bole/.nuget/packages/azure.core/1.38.0/azure.core.1.38.0.nupkg.sha512",
     "/Users/nicolas.bole/.nuget/packages/azure.identity/1.11.4/azure.identity.1.11.4.nupkg.sha512",

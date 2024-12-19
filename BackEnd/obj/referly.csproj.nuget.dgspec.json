@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/nicolas.bole/Documents/referlyNet/referly/referly.csproj": {}
+    "/Users/nicolas.bole/Documents/ReferlyDocker/BackEnd/referly.csproj": {}
   },
   "projects": {
-    "/Users/nicolas.bole/Documents/referlyNet/referly/referly.csproj": {
+    "/Users/nicolas.bole/Documents/ReferlyDocker/BackEnd/referly.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/nicolas.bole/Documents/referlyNet/referly/referly.csproj",
+        "projectUniqueName": "/Users/nicolas.bole/Documents/ReferlyDocker/BackEnd/referly.csproj",
         "projectName": "referly",
-        "projectPath": "/Users/nicolas.bole/Documents/referlyNet/referly/referly.csproj",
+        "projectPath": "/Users/nicolas.bole/Documents/ReferlyDocker/BackEnd/referly.csproj",
         "packagesPath": "/Users/nicolas.bole/.nuget/packages/",
-        "outputPath": "/Users/nicolas.bole/Documents/referlyNet/referly/obj/",
+        "outputPath": "/Users/nicolas.bole/Documents/ReferlyDocker/BackEnd/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/nicolas.bole/.nuget/NuGet/NuGet.Config"
