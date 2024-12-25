@@ -33,6 +33,7 @@ builder.Services.AddCors(options => {
     });
 });
 
+
 builder.Services.AddControllers().AddJsonOptions(options => {
     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 });
@@ -68,6 +69,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
+app.MapGet("/health", () => Results.Ok(new { status = "Healthy" }))
+   .WithName("HealthCheck")
+   .WithOpenApi();
+   
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -81,6 +86,12 @@ else
     app.UseCors("ProdCors");
     app.UseHttpsRedirection();
 }
+
+app.MapGet("/health", (ILogger<Program> logger) => {
+    logger.LogInformation("Health check endpoint hit");
+    return Results.Ok(new { status = "Healthy" });
+}).WithName("HealthCheck")
+  .AllowAnonymous();
 
 // Global error handling
 app.UseExceptionHandler(errorApp =>
