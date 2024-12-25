@@ -68,10 +68,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 var app = builder.Build();
-
-app.MapGet("/health", () => Results.Ok(new { status = "Healthy" }))
-   .WithName("HealthCheck")
-   .WithOpenApi();
    
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
