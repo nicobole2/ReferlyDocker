@@ -1,0 +1,100 @@
+{
+    "tasks": [
+        {
+            "attachments": [
+                {
+                    "id": "b1c19b7c-aa08-41b1-8d7f-f8c490aab72a",
+                    "type": "ElasticNetworkInterface",
+                    "status": "ATTACHED",
+                    "details": [
+                        {
+                            "name": "subnetId",
+                            "value": "subnet-0d14217e9e8ec3b15"
+                        },
+                        {
+                            "name": "networkInterfaceId",
+                            "value": "eni-01f6c94d675a9e4b8"
+                        },
+                        {
+                            "name": "macAddress",
+                            "value": "02:81:f0:ac:65:2f"
+                        },
+                        {
+                            "name": "privateDnsName",
+                            "value": "ip-10-0-16-16.ec2.internal"
+                        },
+                        {
+                            "name": "privateIPv4Address",
+                            "value": "10.0.16.16"
+                        }
+                    ]
+                }
+            ],
+            "attributes": [
+                {
+                    "name": "ecs.cpu-architecture",
+                    "value": "x86_64"
+                }
+            ],
+            "availabilityZone": "us-east-1b",
+            "capacityProviderName": "FARGATE",
+            "clusterArn": "arn:aws:ecs:us-east-1:051826730641:cluster/referly",
+            "connectivity": "CONNECTED",
+            "connectivityAt": "2024-12-25T17:28:22.792000-03:00",
+            "containers": [
+                {
+                    "containerArn": "arn:aws:ecs:us-east-1:051826730641:container/referly/46547ecd71734661a03d0420a28df4d4/d67ac0e8-cb21-4e43-85b2-bc67c9cbd739",
+                    "taskArn": "arn:aws:ecs:us-east-1:051826730641:task/referly/46547ecd71734661a03d0420a28df4d4",
+                    "name": "back",
+                    "image": "051826730641.dkr.ecr.us-east-1.amazonaws.com/back/referly",
+                    "imageDigest": "sha256:9918f97703a3e9674c17f9186bbfed922c246aa9960c443981901e36c60c12e5",
+                    "runtimeId": "46547ecd71734661a03d0420a28df4d4-1538531746",
+                    "lastStatus": "RUNNING",
+                    "networkBindings": [],
+                    "networkInterfaces": [
+                        {
+                            "attachmentId": "b1c19b7c-aa08-41b1-8d7f-f8c490aab72a",
+                            "privateIpv4Address": "10.0.16.16"
+                        }
+                    ],
+                    "healthStatus": "UNHEALTHY",
+                    "cpu": "0"
+                }
+            ],
+            "cpu": "1024",
+            "createdAt": "2024-12-25T17:28:17.767000-03:00",
+            "desiredStatus": "RUNNING",
+            "enableExecuteCommand": false,
+            "group": "service:vv",
+            "healthStatus": "UNHEALTHY",
+            "lastStatus": "RUNNING",
+            "launchType": "FARGATE",
+            "memory": "3072",
+            "overrides": {
+                "containerOverrides": [
+                    {
+                        "name": "back"
+                    }
+                ],
+                "inferenceAcceleratorOverrides": []
+            },
+            "platformVersion": "1.4.0",
+            "platformFamily": "Linux",
+            "pullStartedAt": "2024-12-25T17:28:31.861000-03:00",
+            "pullStoppedAt": "2024-12-25T17:28:38.960000-03:00",
+            "startedAt": "2024-12-25T17:28:53.593000-03:00",
+            "startedBy": "ecs-svc/9335629856676632853",
+            "tags": [],
+            "taskArn": "arn:aws:ecs:us-east-1:051826730641:task/referly/46547ecd71734661a03d0420a28df4d4",
+            "taskDefinitionArn": "arn:aws:ecs:us-east-1:051826730641:task-definition/td:1",
+            "version": 5,
+            "ephemeralStorage": {
+                "sizeInGiB": 20
+            },
+            "fargateEphemeralStorage": {
+                "sizeInGiB": 20
+            }
+        }
+    ],
+    "failures": []
+}
