@@ -2,7 +2,6 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.EntityFrameworkCore;
 using Referly.Services;
 
 var builder = WebApplication.CreateBuilder(args);
