@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("referly")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e53138dcfea427390dca3d34c8a39b6178336f3e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6b3f7fa117007d8f9b312e220e0a2306b95b663a")]
 [assembly: System.Reflection.AssemblyProductAttribute("referly")]
 [assembly: System.Reflection.AssemblyTitleAttribute("referly")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
