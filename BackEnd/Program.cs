@@ -1,9 +1,11 @@
+using System.Text;
 using System.Text.Json;
-
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
+using Referly.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddHealthChecks(); // Registra Health Checks
 
 // Add logging
 builder.Logging.ClearProviders();
@@ -38,10 +40,34 @@ builder.Services.AddControllers().AddJsonOptions(options => {
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IEmailService, EmailService>();
+
+// Configure database connection
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new InvalidOperationException("Connection string 'DefaultConnection' not found");
+}
+
+string? tokenKeyString = builder.Configuration.GetSection("AppSettings:TokenKey").Value;
+
+SymmetricSecurityKey symmetricSecurityKey = new(
+    Encoding.UTF8.GetBytes(tokenKeyString ?? "")
+);
+
+TokenValidationParameters tokenValidationParameters = new() {
+    IssuerSigningKey = symmetricSecurityKey,
+    ValidateIssuer = false,
+    ValidateIssuerSigningKey = false,
+    ValidateAudience = false
+};
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options => {
+        options.TokenValidationParameters = tokenValidationParameters;
+    });
 
 var app = builder.Build();
-   
-//app.MapHealthChecks("/health").WithName("HealthCheck");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -57,12 +83,11 @@ else
     app.UseHttpsRedirection();
 }
 
-
 app.MapGet("/health", (ILogger<Program> logger) => {
+    logger.LogInformation("Health check endpoint hit");
     return Results.Ok(new { status = "Healthy" });
 }).WithName("HealthCheck")
   .AllowAnonymous();
-  
 
 // Global error handling
 app.UseExceptionHandler(errorApp =>
