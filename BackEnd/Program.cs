@@ -83,7 +83,7 @@ else
 app.MapGet("/health", (ILogger<Program> logger) => {
     logger.LogInformation("Health check endpoint hit");
     return Results.Ok(new { status = "Healthy" });
-}).WithName("HealthCheck")
+}).WithName("CustomHealthCheck")
   .AllowAnonymous();
 
 // Global error handling

@@ -29,12 +29,6 @@ public class AuthController: ControllerBase {
         authHelper = new(config);
     }
 
-    [AllowAnonymous]
-    [HttpPost("SendMail")]
-    public async Task<IActionResult> SendEmailAsync() {
-        return Ok();
-    }
-
 
     [AllowAnonymous]
     [HttpPost("Register")]

@@ -15,7 +15,7 @@ public class DataContextDapper(IConfiguration config)
     public T LoadSingleMethod<T>(string sql)
     {
         // Simula la ejecución de la consulta y retorno de un solo valor
-        return default(T); // Retorna el valor por defecto del tipo T
+        return default; // Retorna el valor por defecto del tipo T
     }
 
     public bool ExecuteSql(string sql)
