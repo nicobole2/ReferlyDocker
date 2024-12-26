@@ -2,7 +2,6 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Referly.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,7 +38,6 @@ builder.Services.AddControllers().AddJsonOptions(options => {
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IEmailService, EmailService>();
 
 // Configure database connection
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

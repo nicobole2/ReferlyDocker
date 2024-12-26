@@ -7,7 +7,6 @@ using Referly.Data;
 using Referly.Helper;
 using Referly.Models;
 using Referly.Models.Hunters;
-using Referly.Services;
 
 
 
@@ -18,15 +17,13 @@ namespace Referly.Controllers;
 [Route("[controller]")]
 public class AuthController: ControllerBase {
 
-    private readonly IEmailService _emailService;
 
     private readonly DataContextDapper _dapper;
 
     private readonly IConfiguration _config;
 
     private readonly AuthHelper authHelper;
-    public AuthController(IConfiguration config,  IEmailService emailService) {
-        _emailService = emailService;
+    public AuthController(IConfiguration config) {
         _dapper = new DataContextDapper(config);
         _config = config;
         authHelper = new(config);
@@ -35,14 +32,6 @@ public class AuthController: ControllerBase {
     [AllowAnonymous]
     [HttpPost("SendMail")]
     public async Task<IActionResult> SendEmailAsync() {
-        string confirmationLink = Url.Action(
-            "ConfirmEmail",
-            "Auth",
-             new { token = "token", email = "nicolas.bole@hotmail.com" }, Request.Scheme);
-             
-        await _emailService.SendEmailAsync("nicolas.bole@hotmail.com", "Confirm your email",
-                $"Please confirm your account by clicking <a href='{confirmationLink}'>here</a>.");
-
         return Ok();
     }
 
