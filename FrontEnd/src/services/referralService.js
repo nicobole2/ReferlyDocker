@@ -1,6 +1,6 @@
 import { auth } from './auth';
 
-const API_URL = 'http://localhost:5000';
+const API_URL = 'http://lb-267358217.sa-east-1.elb.amazonaws.com:5000';
 
 export const referralService = {
   async createReferral(referralData) {

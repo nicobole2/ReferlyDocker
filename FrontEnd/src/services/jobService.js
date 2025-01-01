@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000';
+const API_URL = 'http://lb-267358217.sa-east-1.elb.amazonaws.com:5000';
 
 const handleApiError = (error) => {
   console.error('API Error:', {

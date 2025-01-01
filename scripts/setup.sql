@@ -47,7 +47,6 @@ CREATE TABLE Job.Responsibilities (
     id INT PRIMARY KEY IDENTITY(1,1),
     jobReferenceId INT,
     description NVARCHAR(MAX),
-    FOREIGN KEY (jobReferenceId) REFERENCES Job.JobSearch(referenceId)
 );
 GO
 
@@ -55,7 +54,6 @@ CREATE TABLE Job.Requirements (
     id INT PRIMARY KEY IDENTITY(1,1),
     jobReferenceId INT,
     description NVARCHAR(MAX),
-    FOREIGN KEY (jobReferenceId) REFERENCES Job.JobSearch(referenceId)
 );
 GO
 
@@ -75,7 +73,6 @@ CREATE TABLE Job.JobSearch (
     vacancies INT NOT NULL,
     city NVARCHAR(50),
     level NVARCHAR(50),
-    FOREIGN KEY (companyContactId) REFERENCES CompanyContact(id)
 );
 GO
 
@@ -117,7 +114,6 @@ CREATE TABLE Job.JobSearch (
     vacancies INT NOT NULL,
     city NVARCHAR(50),
     level NVARCHAR(50),
-    FOREIGN KEY (companyContactId) REFERENCES CompanyContact(id)
 );
 GO
 
