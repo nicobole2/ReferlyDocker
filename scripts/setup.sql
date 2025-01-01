@@ -37,11 +37,11 @@ CREATE TABLE Job.CompanyContact (
     countryOfResidence NVARCHAR(50),
     cityOfResidence NVARCHAR(50),
     companyId INT,
-    FOREIGN KEY (companyId) REFERENCES Company(id)
 );
 GO
 
 
+SELECT * FROM Job.Hunters
 
 CREATE TABLE Job.Responsibilities (
     id INT PRIMARY KEY IDENTITY(1,1),

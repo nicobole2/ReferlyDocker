@@ -80,13 +80,13 @@ else
     app.UseHttpsRedirection();
 }
 
-/*
-app.MapGet("/health", (ILogger<Program> logger) => {
+
+app.MapGet("/chequeo", (ILogger<Program> logger) => {
     logger.LogInformation("Health check endpoint hit");
     return Results.Ok(new { status = "Healthy" });
 }).WithName("CustomHealthCheck")
   .AllowAnonymous();
-  */
+  
 
 // Global error handling
 app.UseExceptionHandler(errorApp =>
