@@ -5,12 +5,12 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add logging
+// Logging configuration
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 
-// Add CORS configuration first
+// Configure CORS
 builder.Services.AddCors(options => {
     options.AddPolicy("DevCors", corsBuilder => {
         corsBuilder.WithOrigins(
@@ -18,28 +18,32 @@ builder.Services.AddCors(options => {
             "http://localhost:3000",
             "http://localhost:8000",
             "http://localhost:5173",
+            "http://uilg-1457697790.sa-east-1.elb.amazonaws.com",
             "http://netlb-241207186.sa-east-1.elb.amazonaws.com:5000"
         )
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowCredentials();
     });
+
     options.AddPolicy("ProdCors", corsBuilder => {
         corsBuilder.WithOrigins(
-            "https://productonSite.com",
-            "http://netlb-241207186.sa-east-1.elb.amazonaws.com:5000" // Agregar esta línea
-            )
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials();
+            "https://productionSite.com",
+            "http://uilg-1457697790.sa-east-1.elb.amazonaws.com",
+            "http://netlb-241207186.sa-east-1.elb.amazonaws.com:5000"
+        )
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials();
     });
 });
 
-
+// Add controllers and JSON configuration
 builder.Services.AddControllers().AddJsonOptions(options => {
     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 });
 
+// Add Swagger for API documentation
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -50,16 +54,13 @@ if (string.IsNullOrEmpty(connectionString))
     throw new InvalidOperationException("Connection string 'DefaultConnection' not found");
 }
 
+// Configure JWT Authentication
 string? tokenKeyString = builder.Configuration.GetSection("AppSettings:TokenKey").Value;
-
-SymmetricSecurityKey symmetricSecurityKey = new(
-    Encoding.UTF8.GetBytes(tokenKeyString ?? "")
-);
-
-TokenValidationParameters tokenValidationParameters = new() {
+var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKeyString ?? ""));
+var tokenValidationParameters = new TokenValidationParameters {
     IssuerSigningKey = symmetricSecurityKey,
     ValidateIssuer = false,
-    ValidateIssuerSigningKey = false,
+    ValidateIssuerSigningKey = true,
     ValidateAudience = false
 };
 
@@ -70,7 +71,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -78,31 +79,25 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-else 
+else
 {
     app.UseCors("ProdCors");
     app.UseHttpsRedirection();
 }
 
+// Middleware for handling preflight (OPTIONS) requests explicitly
 app.Use(async (context, next) =>
 {
     if (context.Request.Method == "OPTIONS")
     {
-        context.Response.Headers.Add("Access-Control-Allow-Origin", "http://uilg-1457697790.sa-east-1.elb.amazonaws.com");
+        context.Response.Headers.Add("Access-Control-Allow-Origin", context.Request.Headers["Origin"]);
         context.Response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         context.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");
-        context.Response.StatusCode = 200; 
+        context.Response.StatusCode = 204; // No Content
         return;
     }
     await next();
 });
-
-app.MapGet("/chequeo", (ILogger<Program> logger) => {
-    logger.LogInformation("Health check endpoint hit");
-    return Results.Ok(new { status = "Healthy" });
-}).WithName("CustomHealthCheck")
-  .AllowAnonymous();
-  
 
 // Global error handling
 app.UseExceptionHandler(errorApp =>
@@ -116,8 +111,8 @@ app.UseExceptionHandler(errorApp =>
         {
             var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
             logger.LogError(error.Error, "An unhandled exception occurred.");
-            
-            await context.Response.WriteAsJsonAsync(new { 
+
+            await context.Response.WriteAsJsonAsync(new {
                 error = "An error occurred processing your request.",
                 details = app.Environment.IsDevelopment() ? error.Error.Message : null
             });
@@ -125,10 +120,18 @@ app.UseExceptionHandler(errorApp =>
     });
 });
 
-// Add authentication after CORS
+// Authentication and Authorization middleware
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Endpoint for health checks
+app.MapGet("/chequeo", (ILogger<Program> logger) => {
+    logger.LogInformation("Health check endpoint hit");
+    return Results.Ok(new { status = "Healthy" });
+}).WithName("CustomHealthCheck").AllowAnonymous();
+
+// Map controllers
 app.MapControllers();
 
+// Run the application
 app.Run();
