@@ -84,6 +84,18 @@ else
     app.UseHttpsRedirection();
 }
 
+app.Use(async (context, next) =>
+{
+    if (context.Request.Method == "OPTIONS")
+    {
+        context.Response.Headers.Add("Access-Control-Allow-Origin", "http://uilg-1457697790.sa-east-1.elb.amazonaws.com");
+        context.Response.Headers.Add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        context.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        context.Response.StatusCode = 200; 
+        return;
+    }
+    await next();
+});
 
 app.MapGet("/chequeo", (ILogger<Program> logger) => {
     logger.LogInformation("Health check endpoint hit");
