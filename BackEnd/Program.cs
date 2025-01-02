@@ -17,7 +17,8 @@ builder.Services.AddCors(options => {
             "http://localhost:4200",
             "http://localhost:3000",
             "http://localhost:8000",
-            "http://localhost:5173"
+            "http://localhost:5173",
+            "http://netlb-241207186.sa-east-1.elb.amazonaws.com:5000"
         )
         .AllowAnyMethod()
         .AllowAnyHeader()
