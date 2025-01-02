@@ -25,7 +25,10 @@ builder.Services.AddCors(options => {
         .AllowCredentials();
     });
     options.AddPolicy("ProdCors", corsBuilder => {
-        corsBuilder.WithOrigins("https://productonSite.com")
+        corsBuilder.WithOrigins(
+            "https://productonSite.com",
+            "http://netlb-241207186.sa-east-1.elb.amazonaws.com:5000" // Agregar esta línea
+            )
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials();
