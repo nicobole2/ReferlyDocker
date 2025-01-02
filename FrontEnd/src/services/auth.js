@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode'
 
-const API_URL = 'http://lb-267358217.sa-east-1.elb.amazonaws.com:5000'
+const API_URL = 'http://netlb-241207186.sa-east-1.elb.amazonaws.com:5000'
 const currentUser = ref(null)
 const TOKEN_KEY = 'auth_token'
 const USER_KEY = 'user'

@@ -40,9 +40,6 @@ CREATE TABLE Job.CompanyContact (
 );
 GO
 
-
-SELECT * FROM Job.Hunters
-
 CREATE TABLE Job.Responsibilities (
     id INT PRIMARY KEY IDENTITY(1,1),
     jobReferenceId INT,
